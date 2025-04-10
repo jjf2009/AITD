@@ -18,10 +18,24 @@ export default function CardCarousel({ selectedIndex, onSelectCard, current, for
   const scrollRef = useRef(null)
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  // Expanded weather data for the cards (12 total)
-  const weatherCards = [
-    { day: new Date(current.dt * 1000).toDateString().slice(0,3) , date: new Date(current.dt * 1000).toDateString().slice(4,11), temp: current.main.temp, icon: <Sun className="h-10 w-10 text-yellow-500" /> },
+  // Guard against undefined data
+  const currentDayCard = current && current.main
+    ? {
+        day: new Date(current.dt * 1000).toDateString().slice(0, 3),
+        date: new Date(current.dt * 1000).toDateString().slice(4, 11),
+        temp: `${Math.round(current.main.temp)}°C`,
+        icon: <Sun className="h-10 w-10 text-yellow-500" />,
+      }
+    : {
+        day: "Now",
+        date: "",
+        temp: "--°C",
+        icon: <Cloud className="h-10 w-10 text-gray-400" />,
+      }
 
+  // Extended mock forecast (replace with forecast data later)
+  const weatherCards = [
+    currentDayCard,
     { day: "Tuesday", date: "Apr 11", temp: "26°C", icon: <CloudSun className="h-10 w-10 text-yellow-400" /> },
     { day: "Wednesday", date: "Apr 12", temp: "24°C", icon: <Cloud className="h-10 w-10 text-gray-400" /> },
     { day: "Thursday", date: "Apr 13", temp: "22°C", icon: <CloudRain className="h-10 w-10 text-green-400" /> },
@@ -39,16 +53,11 @@ export default function CardCarousel({ selectedIndex, onSelectCard, current, for
     const container = scrollRef.current
     if (container) {
       const scrollAmount = 300
-      if (direction === "left") {
-        container.scrollBy({ left: -scrollAmount, behavior: "smooth" })
-      } else {
-        container.scrollBy({ left: scrollAmount, behavior: "smooth" })
-      }
-
-      // Update scroll position after scrolling
-      setTimeout(() => {
-        setScrollPosition(container.scrollLeft)
-      }, 300)
+      container.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      })
+      setTimeout(() => setScrollPosition(container.scrollLeft), 300)
     }
   }
 
