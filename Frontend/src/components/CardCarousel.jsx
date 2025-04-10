@@ -1,4 +1,3 @@
-"use client"
 
 import { useState, useRef } from "react"
 import {
@@ -17,6 +16,7 @@ import {
 export default function CardCarousel({ selectedIndex, onSelectCard, current, foreCastList }) {
   const scrollRef = useRef(null)
   const [scrollPosition, setScrollPosition] = useState(0)
+  // console.log(foreCastList?.main)
 
   // Guard against undefined data
   const currentDayCard = current && current.main

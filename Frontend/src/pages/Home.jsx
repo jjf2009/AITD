@@ -12,8 +12,6 @@ import FarmManagement from "../components/FarmManagement"
 const Home = () => {
   return (
     <div className="min-h-screen bg-green-50">
-      <Navbar />
-
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main content - 2/3 width on large screens */}
@@ -22,6 +20,7 @@ const Home = () => {
             <TechnologySection />
             <SoilMonitoring />
             <CommodityPrices />
+            <FarmManagement />
           </div>
 
           {/* Sidebar - 1/3 width on large screens */}
@@ -30,7 +29,6 @@ const Home = () => {
             <FarmWeather />
             <PestMonitor />
             <AgricultureNews />
-            <FarmManagement />
           </div>
         </div>
       </div>

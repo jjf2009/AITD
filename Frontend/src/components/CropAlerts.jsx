@@ -2,7 +2,7 @@ import { AlertTriangle, Wheat, CropIcon as Corn } from "lucide-react"
 
 const AlertCard = ({ icon, title, status, recommendation }) => {
   return (
-    <div className="bg-amber-50 border border-amber-100 rounded-lg p-4 mb-3 cursor-pointer hover:shadow-sm transition-shadow">
+    <div className="bg-amber-50 border border-amber-100 rounded-lg p-4 mb-3 cursor-pointer hover:shadow-lg transition-shadow">
       <div className="flex items-center mb-1">
         {icon}
         <h3 className="font-bold ml-2">{title}</h3>
@@ -15,7 +15,7 @@ const AlertCard = ({ icon, title, status, recommendation }) => {
 
 const CropAlerts = () => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div className="bg-[#ffdada] rounded-lg hover:shadow-red-900 overflow-hidden">
       <div className="bg-amber-50 p-4 border-b flex items-center">
         <AlertTriangle className="text-amber-500 mr-2" />
         <h2 className="font-bold text-lg">Crop Alerts</h2>

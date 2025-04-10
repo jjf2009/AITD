@@ -28,6 +28,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.get("/api/weather", async (req, res) => {
   const { lat, lon } = req.query;
   const apiKey = process.env.WEATHER_API_KEY;
+  console.log("🗝️ WEATHER_API_KEY:", process.env.WEATHER_API_KEY);
+
 
   console.log("🔍 API hit with lat:", lat, "lon:", lon);
 

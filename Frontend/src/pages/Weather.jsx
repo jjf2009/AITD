@@ -1,5 +1,4 @@
-"use client"
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import ScrollingText from "../components/ScrollingText"
 import CardCarousel from "../components/CardCarousel"
 import GridSection from "../components/GridSection"
@@ -11,15 +10,20 @@ export default function Weather() {
 
   const [current, setCurrent] = useState({})
   const [foreCastList, setforeCastList] = useState([])
-
-  fetch('http://localhost:3000/api/weather')
-  .then(res => res.json())
-  .then(data => {
-     //current = data.current;
-    setCurrent(data.current)
-    setforeCastList(data.forecast.list)
-     //foreCastList = data.forcast.list;
-  })
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/api/weather')
+      .then(res => res.json())
+      .then(data => {
+        setCurrent(data.current);
+        setforeCastList(data.forecast.list);
+        console.log("🌤️ Weather data:",data );
+      })
+      .catch(err => {
+        console.error("❌ Failed to fetch weather:", err);
+      });
+  }, []);
+  
 
 
   return (

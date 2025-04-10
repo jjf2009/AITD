@@ -14,7 +14,7 @@ const ForecastDay = ({ day, icon, high, low }) => {
 
 const FarmWeather = () => {
   return (
-    <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+    <div className="bg-white rounded-lg cursor-pointer overflow-hidden hover:shadow-md transition-shadow">
       <div className="p-4 border-b flex items-center">
         <Cloud className="text-blue-500 mr-2" />
         <h2 className="font-bold text-lg">Farm Weather</h2>
