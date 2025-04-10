@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-green-700">
+      <div>
         <Navbar />
         <main className="flex-grow">
           <Outlet />
