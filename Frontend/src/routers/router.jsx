@@ -5,6 +5,7 @@ import Detect from "@/pages/Detect.jsx";
 import Manage from "@/pages/Manage.jsx"
 import Home from "@/pages/Home.jsx";
 import Login from "@/pages/Login.jsx";
+import FarmManagement from "@/pages/FarmManagement.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/manage",
         element: <Manage/>
+      },
+      {
+        path: "/resources",
+        element: <FarmManagement />
       },
     ],
   },

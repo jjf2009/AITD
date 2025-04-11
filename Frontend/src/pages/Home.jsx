@@ -9,6 +9,7 @@ import CommodityPrices from "../components/CommodityPrices"
 import AgricultureNews from "../components/AgricultureNews"
 import FarmManagement from "../components/FarmManagement"
 
+
 const Home = () => {
   return (
     <div className="min-h-screen bg-green-50">
@@ -35,5 +36,7 @@ const Home = () => {
     </div>
   )
 }
+
+
 
 export default Home
