@@ -9,19 +9,24 @@ export default function Weather() {
   const [selectedCardIndex, setSelectedCardIndex] = useState(0)
 
   const [current, setCurrent] = useState({})
-  const [foreCastList, setforeCastList] = useState([])
+  const [foreCastList, setforeCastList] = useState([{}])
   
   useEffect(() => {
-    fetch('http://localhost:3000/api/weather')
-      .then(res => res.json())
-      .then(data => {
+    const fetchWeather = async () => {
+      try {
+        const res = await fetch('http://localhost:3000/api/weather');
+        const data = await res.json();
+  
         setCurrent(data.current);
-        setforeCastList(data.forecast.list);
-        console.log("🌤️ Weather data:",data );
-      })
-      .catch(err => {
+        setforeCastList(data.forecast.list); // sets state
+  
+        // console.log("✅ Fetched forecast list:", data.forecast.list); // logs correct data
+      } catch (err) {
         console.error("❌ Failed to fetch weather:", err);
-      });
+      }
+    };
+  
+    fetchWeather();
   }, []);
   
 

@@ -1,4 +1,5 @@
 import { Leaf } from "lucide-react"
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -10,9 +11,15 @@ const Navbar = () => {
         </div>
 
         <div className="flex space-x-6">
-          <button className="font-medium">Dashboard</button>
-          <button className="font-medium">Reports</button>
-          <button className="font-medium">Settings</button>
+          <Link to="/weather">
+          <button className="font-medium cursor-pointer">Weather Dashboard</button>
+          </Link>
+          <Link to="/resources">
+          <button className="font-medium cursor-pointer">Manage</button>
+          </Link>
+          <Link to="/">
+          <button className="font-medium cursor-pointer">Home</button>
+          </Link>
         </div>
       </div>
     </div>

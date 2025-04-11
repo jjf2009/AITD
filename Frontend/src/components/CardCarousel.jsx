@@ -1,4 +1,3 @@
-
 import { useState, useRef } from "react"
 import {
   ChevronLeft,
@@ -16,15 +15,26 @@ import {
 export default function CardCarousel({ selectedIndex, onSelectCard, current, foreCastList }) {
   const scrollRef = useRef(null)
   const [scrollPosition, setScrollPosition] = useState(0)
-  // console.log(foreCastList?.main)
 
-  // Guard against undefined data
+  // Helper to pick icon based on weather condition
+  const getWeatherIcon = (main) => {
+    const weather = main.toLowerCase()
+    if (weather.includes("cloud")) return <Cloud className="h-10 w-10 text-gray-400" />
+    if (weather.includes("rain")) return <CloudRain className="h-10 w-10 text-blue-400" />
+    if (weather.includes("drizzle")) return <CloudDrizzle className="h-10 w-10 text-blue-300" />
+    if (weather.includes("clear")) return <Sun className="h-10 w-10 text-yellow-500" />
+    if (weather.includes("fog") || weather.includes("mist")) return <CloudFog className="h-10 w-10 text-gray-300" />
+    if (weather.includes("thunderstorm")) return <CloudLightning className="h-10 w-10 text-purple-400" />
+    if (weather.includes("snow")) return <CloudSnow className="h-10 w-10 text-green-200" />
+    return <Cloud className="h-10 w-10 text-gray-400" />
+  }
+
   const currentDayCard = current && current.main
     ? {
-        day: new Date(current.dt * 1000).toDateString().slice(0, 3),
-        date: new Date(current.dt * 1000).toDateString().slice(4, 11),
+        day: new Date(current.dt * 1000).toLocaleDateString("en-US", { weekday: "short" }),
+        date: new Date(current.dt * 1000).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
         temp: `${Math.round(current.main.temp)}°C`,
-        icon: <Sun className="h-10 w-10 text-yellow-500" />,
+        icon: getWeatherIcon(current.weather[0].main),
       }
     : {
         day: "Now",
@@ -32,22 +42,30 @@ export default function CardCarousel({ selectedIndex, onSelectCard, current, for
         temp: "--°C",
         icon: <Cloud className="h-10 w-10 text-gray-400" />,
       }
+      const uniqueDays = new Map()
 
-  // Extended mock forecast (replace with forecast data later)
-  const weatherCards = [
-    currentDayCard,
-    { day: "Tuesday", date: "Apr 11", temp: "26°C", icon: <CloudSun className="h-10 w-10 text-yellow-400" /> },
-    { day: "Wednesday", date: "Apr 12", temp: "24°C", icon: <Cloud className="h-10 w-10 text-gray-400" /> },
-    { day: "Thursday", date: "Apr 13", temp: "22°C", icon: <CloudRain className="h-10 w-10 text-green-400" /> },
-    { day: "Friday", date: "Apr 14", temp: "25°C", icon: <CloudSun className="h-10 w-10 text-yellow-400" /> },
-    { day: "Saturday", date: "Apr 15", temp: "27°C", icon: <Sun className="h-10 w-10 text-yellow-500" /> },
-    { day: "Sunday", date: "Apr 16", temp: "29°C", icon: <Sun className="h-10 w-10 text-yellow-500" /> },
-    { day: "Monday", date: "Apr 17", temp: "23°C", icon: <CloudDrizzle className="h-10 w-10 text-green-300" /> },
-    { day: "Tuesday", date: "Apr 18", temp: "20°C", icon: <CloudRain className="h-10 w-10 text-green-400" /> },
-    { day: "Wednesday", date: "Apr 19", temp: "18°C", icon: <CloudLightning className="h-10 w-10 text-purple-400" /> },
-    { day: "Thursday", date: "Apr 20", temp: "19°C", icon: <CloudFog className="h-10 w-10 text-gray-400" /> },
-    { day: "Friday", date: "Apr 21", temp: "21°C", icon: <CloudSnow className="h-10 w-10 text-green-200" /> },
-  ]
+      const forecastCards = (foreCastList || []).reduce((acc, item) => {
+        if (!item || !item.main || !item.weather || item.weather.length === 0) return acc
+      
+        const date = new Date(item.dt * 1000)
+        const dayKey = date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })
+      
+        if (!uniqueDays.has(dayKey)) {
+          uniqueDays.set(dayKey, true)
+          acc.push({
+            day: date.toLocaleDateString("en-US", { weekday: "short" }),
+            date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+            temp: `${Math.round(item.main.temp)}°C`,
+            icon: getWeatherIcon(item.weather[0].main),
+          })
+        }
+      
+        return acc
+      }, [])
+      
+      
+
+  const weatherCards = [currentDayCard, ...forecastCards]
 
   const scroll = (direction) => {
     const container = scrollRef.current
@@ -69,7 +87,9 @@ export default function CardCarousel({ selectedIndex, onSelectCard, current, for
     <div className="relative">
       {/* Left arrow */}
       <button
-        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md ${scrollPosition <= 10 ? "opacity-50 cursor-not-allowed" : "opacity-100"}`}
+        className={`absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 rounded-full p-2 shadow-md ${
+          scrollPosition <= 10 ? "opacity-50 cursor-not-allowed" : "opacity-100"
+        }`}
         onClick={() => scroll("left")}
         disabled={scrollPosition <= 10}
       >
